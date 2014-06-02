@@ -1,0 +1,24 @@
+{
+	/**
+	 * REQUIRED
+	 *
+	 * compiler web api URL. this should be changed from default value.
+	 */
+	 "cmpilr_url" : "https://cmpilr.herokuapp.com",
+
+	 /**
+	  * REQUIRED
+	  *
+	  * supported formats and corresponding compiled formats
+	  */
+	"compilers" : {
+		"haml" : "html",
+		"scss" : "css",
+		"coffee" : "js"
+	},
+
+	 /**
+	  *  overrwrite wihtout comfirm dialog
+	  */
+	"force_overwrite" : true
+}
