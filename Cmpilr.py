@@ -41,7 +41,7 @@ class Cmpilr(sublime_plugin.EventListener):
 		print 'compiled!!'
 
 	def compile(self, source, extension):
-		urlparts = urlparse(self.cmpilr_url + '/' + extension + '/')
+		urlparts = urlparse(str(self.cmpilr_url) + '/' + extension + '/')
 		conn = HTTPSConnection(urlparts.netloc, urlparts.port or 443) if urlparts.scheme == 'https' else HTTPConnection(urlparts.netloc, urlparts.port or 80)
 		conn.request('POST', urlparts.path, source, { 'Content-Type' : 'application/octet-stream'})
 		resp = conn.getresponse()
