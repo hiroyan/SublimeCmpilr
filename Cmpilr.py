@@ -42,7 +42,7 @@ class Cmpilr(sublime_plugin.EventListener):
 		print 'compiled!!'
 
 	def compile(self, source, extension):
-		urlparts = urlparse(self.cmpilr_url + '/' + extension + '/')
+		urlparts = urlparse(str(self.cmpilr_url) + '/' + extension + '/')
 		host = urlparts.netloc.split(":", 1)[0] if ":" in urlparts.netloc else urlparts.netloc
 		port = urlparts.port
 		conn = HTTPSConnection(host, port or 443) if urlparts.scheme == 'https' else HTTPConnection(host, port or 80)
