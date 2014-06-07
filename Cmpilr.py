@@ -9,7 +9,7 @@ class Cmpilr(sublime_plugin.EventListener):
 
 	def __init__(self):
 		settings = sublime.load_settings('Cmpilr.sublime-settings')
-		self.cmpilr_url = settings.get("cmpilr_url")
+		self.cmpilr_url =  settings.get("cmpilr_url") if settings.get("cmpilr_url")[-1] != '/' else  settings.get("cmpilr_url")[:-1]
 		self.compilers = settings.get("compilers")
 		self.force_overwrite = settings.get("force_overwrite")
 
@@ -42,8 +42,10 @@ class Cmpilr(sublime_plugin.EventListener):
 		print 'compiled!!'
 
 	def compile(self, source, extension):
-		urlparts = urlparse(str(self.cmpilr_url) + '/' + extension + '/')
-		conn = HTTPSConnection(urlparts.netloc, urlparts.port or 443) if urlparts.scheme == 'https' else HTTPConnection(urlparts.netloc, urlparts.port or 80)
+		urlparts = urlparse(self.cmpilr_url + '/' + extension + '/')
+		host = urlparts.netloc.split(":", 1)[0] if ":" in urlparts.netloc else urlparts.netloc
+		port = urlparts.port
+		conn = HTTPSConnection(host, port or 443) if urlparts.scheme == 'https' else HTTPConnection(host, port or 80)
 		conn.request('POST', urlparts.path, source, { 'Content-Type' : 'application/octet-stream'})
 		resp = conn.getresponse()
 		return (resp.status, resp.read())
